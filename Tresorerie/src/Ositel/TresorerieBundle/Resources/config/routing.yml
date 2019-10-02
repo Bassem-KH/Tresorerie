@@ -1,0 +1,4 @@
+ositel_tresorerie_homepage:
+    path:     /a
+    defaults: { _controller: OsitelTresorerieBundle:Default:index }
+

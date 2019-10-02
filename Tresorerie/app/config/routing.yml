@@ -1,0 +1,7 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+transactions:
+    type :  rest
+    resource: Ositel\TresorerieBundle\Controller\TransactionController
+    prefix: /transaction

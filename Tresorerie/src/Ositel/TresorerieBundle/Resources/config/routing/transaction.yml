@@ -1,0 +1,31 @@
+transaction_index:
+    path:     /
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:index" }
+    methods:  GET
+
+transaction_show:
+    path:     /{id}/show
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:show" }
+    methods:  GET
+
+transaction_new:
+    path:     /new
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:new" }
+    methods:  [GET, POST]
+
+transaction_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:edit" }
+    methods:  [GET, POST]
+
+transaction_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:delete" }
+    
+transaction_search:
+    path:     /search
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:search" }
+  
+transaction_month:
+    path:     /month
+    defaults: { _controller: "OsitelTresorerieBundle:Transaction:month" }

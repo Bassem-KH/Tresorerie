@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des Transaction du {{Month|date('M')}}-{{Year}}</h1>
+    
+    <form method="POST" action="">
+        <table >
+            <tr>
+                <td >
+                    <label>Month</label>
+                    <input type='month' name="input_month" />
+                </td>
+               
+            </tr>
+        </table>
+        <input type="submit"  name="rechercher" value="Search">
+    </form></br>
+    
+    
+    
+    
+    
+    {# total items count #}
+    <div class="count">
+        Les nombre de transactions du mois {{Month|date('M')}}-{{Year}} est : <b> {{ pagination.getTotalItemCount }}</b>
+    </div>
+        La somme des entrées du mois {{Month|date('M')}}-{{Year}} est : <b>{% if somme_input!=0 %} {{somme_input}}{% else %} 0 {%endif%}</b><br>
+        La somme des sorties du mois {{Month|date('M')}}-{{Year}} est : <b>{% if somme_output!=0 %} {{somme_output}}{% else %} 0 {%endif%}</b><br>
+        Montant de la trésorerie au début du mois {{Month|date('M')}}-{{Year}} est : <b>{% if tresorerie_debut!=0 %} {{tresorerie_debut}}{% else %} 0 {%endif%}</b><br>
+        Montant de la trésorerie à la fin du mois {{Month|date('M')}}-{{Year}} est : <b>{% if tresorerie_fin!=0 %} {{tresorerie_fin}}{% else %} 0 {%endif%}</b><br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 't.id') }}</th>
+                <th>{% if pagination.isSorted('t.Title') %} class="sorted"{% endif %}{{ knp_pagination_sortable(pagination, 'Title', 't.title') }}</th>
+                <th>Amount</th>
+                <th>Isinput</th>
+                <th>Description</th>
+                
+                <th>{{ knp_pagination_sortable(pagination, 'Created At', ['t.createdAt', 't.createdAt']) }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Updated At', ['t.updatedAt', 't.updatedAt']) }}</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td><a href="{{ path('transaction_show', { 'id': transaction.id }) }}">{{ transaction.id }}</a></td>
+                    <td>{{ transaction.title }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{% if transaction.isInput %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ transaction.description }}</td>
+                    
+                    <td>{% if transaction.createdAt %}{{ transaction.createdAt|date('d/m/Y  H:i:s') }}{% endif %}</td>
+                    <td>{% if transaction.updatedAt %}{{ transaction.updatedAt|date('d/m/Y  H:i:s') }}{% endif %}</td>
+                    <td>
+
+                        <a href="{{ path('transaction_show', { 'id': transaction.id }) }}">show</a>
+                        <br>
+                        <a href="{{ path('transaction_edit', { 'id': transaction.id }) }}">edit</a>
+                        <br>
+                        <a href="{{path("transaction_delete", { 'id': transaction.id })}}">delete</a>
+                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('transaction_new') }}">Create a new transaction</a>
+        </li>
+    </ul>
+{% endblock %}

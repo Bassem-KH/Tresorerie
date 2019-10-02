@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link href="{{ asset('bootstrap-4.0.0-dist/css/bootstrap.min.css')}}" rel="stylesheet">
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+        <script src="{{ asset('bootstrap-4.0.0-dist/js/bootstrap.min.js')}}"></script>
+        {% endblock %}
+    </body>
+</html>

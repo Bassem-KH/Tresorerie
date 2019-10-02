@@ -1,0 +1,4 @@
+services:
+#    ositel_tresorerie.example:
+#        class: Ositel\TresorerieBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

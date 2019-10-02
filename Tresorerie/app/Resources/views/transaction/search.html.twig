@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Transactions list</h1>
+    
+    <form method="POST" action="">
+        <table class="table table-responsive">
+            <tr>
+                <td >
+                    <label>title</label>
+                    <input type='text' name="input_title" />
+                </td>
+                <td >
+                    <label> description</label>
+                    <input type='text' name="input_description" />
+                </td>
+                <td >
+                    <label>Is Input </label>
+                    <ul style="list-style-type:none">
+                        <li>
+                            <input type="checkbox" name="input_input" value="1"> Yes
+                        </li>
+                        <li>
+                            <input type="checkbox" name="input_input" value="0" > No
+                        </li>
+                </td> 
+                <td >
+                    <label>Is Valid </label>
+                    <ul style="list-style-type:none">
+                        <li>
+                            <input type="checkbox" name="input_valid" value="1"> Yes
+                        </li>
+                        <li>
+                            <input type="checkbox" name="input_valid" value="0" > No
+                        </li>
+                </td>
+            </tr>
+        </table>
+        <input type="submit"  name="rechercher" value="Search">
+    </form></br>
+    
+    
+    
+    
+    
+    {# total items count #}
+    <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'Id', 't.id') }}</th>
+                <th>{% if pagination.isSorted('t.Title') %} class="sorted"{% endif %}{{ knp_pagination_sortable(pagination, 'Title', 't.title') }}</th>
+                <th>Amount</th>
+                <th>Isinput</th>
+                <th>Description</th>
+                <th>Isvalid</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Created At', ['t.createdAt', 't.createdAt']) }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'Updated At', ['t.updatedAt', 't.updatedAt']) }}</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td><a href="{{ path('transaction_show', { 'id': transaction.id }) }}">{{ transaction.id }}</a></td>
+                    <td>{{ transaction.title }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{% if transaction.isInput %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>{% if transaction.isValid %}Yes{% else %}No{% endif %}</td>
+                    <td>{% if transaction.createdAt %}{{ transaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if transaction.updatedAt %}{{ transaction.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>
+
+                        <a href="{{ path('transaction_show', { 'id': transaction.id }) }}">show</a>
+                        <br>
+                        <a href="{{ path('transaction_edit', { 'id': transaction.id }) }}">edit</a>
+                        <br>
+                        <a href="{{path("transaction_delete", { 'id': transaction.id })}}">delete</a>
+                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('transaction_new') }}">Create a new transaction</a>
+        </li>
+    </ul>
+{% endblock %}
